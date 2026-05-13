@@ -28,7 +28,7 @@ export const SurveyCompletedMessage = async ({ singleUseMessage, project }: Surv
       {(!project || project.linkSurveyBranding) && (
         <div>
           <Link href="https://formbricks.com">
-            <Image src={footerLogo as string} alt="Brand logo" className="mx-auto w-40" />
+            <Image src={footerLogo} alt="Brand logo" className="mx-auto w-40" />
           </Link>
         </div>
       )}
