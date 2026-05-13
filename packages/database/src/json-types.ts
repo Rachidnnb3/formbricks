@@ -1,4 +1,3 @@
-/* eslint-disable import/no-relative-packages -- required for importing types */
 /* eslint-disable @typescript-eslint/no-namespace -- using namespaces is required for prisma-json-types-generator */
 import { type TActionClassNoCodeConfig } from "@formbricks/types/action-classes";
 import type { TOrganizationAccess } from "@formbricks/types/api-key";
