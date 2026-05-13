@@ -59,7 +59,7 @@ services:
         'if [ -x /usr/local/bin/goose ] && [ -x /usr/local/bin/river ]; then /usr/local/bin/goose -dir /app/migrations postgres "$$DATABASE_URL" up && /usr/local/bin/river migrate-up --database-url "$$DATABASE_URL"; else echo ''Migration tools (goose/river) not in image.''; exit 1; fi',
       ]
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable
+      DATABASE_URL: ${HUB_DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable}
     depends_on:
       postgres:
         condition: service_healthy
@@ -72,9 +72,9 @@ services:
         condition: service_completed_successfully
     ports:
       - "8080:8080"
-    environment:
+    environment: &hub-runtime-environment
       API_KEY: ${HUB_API_KEY:-dev-api-key}
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable
+      DATABASE_URL: ${HUB_DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable}
       # Explicit Postgres env so migrations and any libpq fallback use the service host, not localhost
       PGHOST: postgres
       PGPORT: "5432"
@@ -82,6 +82,31 @@ services:
       PGPASSWORD: postgres
       PGDATABASE: postgres
       PGSSLMODE: disable
+      # Hub embeddings are disabled unless EMBEDDING_PROVIDER and EMBEDDING_MODEL are set.
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-}
+      EMBEDDING_PROVIDER_API_KEY: ${EMBEDDING_PROVIDER_API_KEY:-}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-}
+      EMBEDDING_MAX_CONCURRENT: ${EMBEDDING_MAX_CONCURRENT:-5}
+      EMBEDDING_MAX_ATTEMPTS: ${EMBEDDING_MAX_ATTEMPTS:-3}
+      EMBEDDING_NORMALIZE: ${EMBEDDING_NORMALIZE:-false}
+      EMBEDDING_GOOGLE_CLOUD_PROJECT: ${EMBEDDING_GOOGLE_CLOUD_PROJECT:-}
+      EMBEDDING_GOOGLE_CLOUD_LOCATION: ${EMBEDDING_GOOGLE_CLOUD_LOCATION:-}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-}
+
+  # Hub worker processes async jobs enqueued by the API, including embeddings.
+  hub-worker:
+    image: ghcr.io/formbricks/hub:${HUB_IMAGE_TAG:-0.3.0}
+    depends_on:
+      hub-migrate:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    entrypoint: ["/app/hub-worker"]
+    healthcheck:
+      disable: true
+    environment:
+      <<: *hub-runtime-environment
 
   cube:
     profiles: ["xm"]
