@@ -74,7 +74,7 @@ if (!result.ok) {
     case ErrorCode.CacheValidationError:
     case ErrorCode.RedisOperationError:
     case ErrorCode.CacheCorruptionError:
-      // Handle based on error code
+    // Handle based on error code
   }
   return;
 }

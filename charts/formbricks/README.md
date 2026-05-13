@@ -14,12 +14,12 @@ A Helm chart for Formbricks with PostgreSQL, Redis
 
 ## Requirements
 
-| Repository                               | Name       | Version |
-| ---------------------------------------- | ---------- | ------- |
-| oci://registry-1.docker.io/bitnamicharts | postgresql | 16.4.16 |
-| oci://registry-1.docker.io/bitnamicharts | redis      | 20.11.2 |
-| oci://docker.io/envoyproxy               | gateway-helm | v1.7.1 |
-| oci://registry-1.docker.io/bitnamicharts | redis      | 20.11.2 |
+| Repository                               | Name         | Version |
+| ---------------------------------------- | ------------ | ------- |
+| oci://registry-1.docker.io/bitnamicharts | postgresql   | 16.4.16 |
+| oci://registry-1.docker.io/bitnamicharts | redis        | 20.11.2 |
+| oci://docker.io/envoyproxy               | gateway-helm | v1.7.1  |
+| oci://registry-1.docker.io/bitnamicharts | redis        | 20.11.2 |
 
 ## Envoy bundle modes
 
