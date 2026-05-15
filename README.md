@@ -18,7 +18,6 @@ The Open Source Qualtrics Alternative
 <a href="https://formbricks.com/">Website</a>
 </p>
 </p>
-
 <p align="center">
 <a href="https://github.com/formbricks/formbricks/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-AGPL-purple" alt="License"></a> <a href="https://github.com/formbricks/formbricks/stargazers"><img src="https://img.shields.io/github/stars/formbricks/formbricks?logo=github" alt="Github Stars"></a>
 <a href="https://insights.linuxfoundation.org/project/formbricks"><img src="https://insights.linuxfoundation.org/api/badge/health-score?project=formbricks"></a>
